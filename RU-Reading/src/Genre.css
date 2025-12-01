@@ -1,0 +1,178 @@
+/* Base */
+:root {
+  --bg: #faf8f5;
+  --ink: #222;
+  --muted: #666;
+  --brand: #5f0f0f;
+  --brand-dark: #5f0f0f;
+  --card: #fff;
+  --border: #ddd;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', Times, serif
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.5;
+}
+
+.app {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* Header */
+header {
+  background: var(--brand);
+  color: #fff;
+  text-align: center;
+  padding: 24px 16px;
+  border-radius: 0px;
+  margin-bottom: 18px;
+}
+header h1 { margin: 0 0 12px;}
+header p { margin: 0; opacity: 0.9; }
+
+/* Nav */
+nav ul {
+  list-style: none;
+  margin: 12px 0 24px;
+  padding: 0;
+  background: #333;
+  border-radius: 0px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  overflow: hidden;
+}
+nav ul li a {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 14px;
+}
+nav ul li a:hover { background: #555; }
+
+/* Sections */
+main { display: grid; gap: 28px; }
+section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+}
+section h2 { margin-top: 0; }
+
+/* Like button (About section) */
+.like-button {
+  margin-top: 10px;
+  border: 1px solid var(--brand);
+  background: #fff;
+  color: var(--brand);
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.like-button:hover { background: rgba(30,108,255,0.08); }
+
+/* Services */
+.service-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.service-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  width: clamp(220px, 30%, 280px);
+}
+.service-box h3 { margin: 0 0 8px; }
+
+/* Projects */
+.project-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.project-item h3 { margin: 0 0 6px; }
+.project-item p { margin: 6px 0; }
+
+/* Works (API results) */
+.works {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 14px;
+}
+.work {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 12px;
+  align-items: start;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+}
+.work h3 { margin: 0 0 6px; }
+.work p { margin: 4px 0; color: var(--muted); }
+.work img {
+  width: 120px;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+/* Form (Contact or Subject search) */
+form {
+  display: grid;
+  gap: 10px;
+  max-width: 420px;
+  margin: 0 auto 10px;
+}
+label { text-align: left; font-weight: 600; }
+input, textarea, select, button {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font: inherit;
+  background: #fff;
+}
+textarea { resize: vertical; min-height: 80px; }
+button {
+  background: var(--brand);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+button:hover { background: var(--brand-dark); }
+button[disabled] { opacity: 0.6; cursor: not-allowed; }
+
+/* Feedback */
+.error { color: #b00020; }
+.muted { color: var(--muted); }
+
+/* Footer */
+footer {
+  text-align: center;
+  color: #fff;
+  background: #333;
+  border-radius: 10px;
+  padding: 12px;
+  margin-top: 18px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 700px) {
+  .work { grid-template-columns: 1fr; }
+  nav ul { flex-wrap: wrap; padding: 6px; }
+}
