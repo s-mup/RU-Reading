@@ -40,7 +40,7 @@ export default function App() {
 
   return (
     <div className="page">
-      <h1 className="title">OpenLibrary Book Search</h1>
+      <h1 className="title">RU Reading Book Search</h1>
 
       <div className="search-box">
         <input
