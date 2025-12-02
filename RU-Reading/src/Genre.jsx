@@ -1,29 +1,24 @@
 import { useState } from 'react';
-import './Genre.css';                 // Uses your actual stylesheet
-import BookList from "./BookList.jsx"; // Imports the child component that fetches and renders books
+import './Genre.css';
+import BookList from "./BookList.jsx";
 
-function Genre() {
-  // Holds the currently selected subject for OpenLibrary's /subjects API
+// 1. Accept the prop here
+function Genre({ addToReadingList }) {
   const [selectedGenre, setSelectedGenre] = useState('love');
 
-  // Updates state when the dropdown changes
   const handleGenreChange = (e) => {
     setSelectedGenre(e.target.value);
   };
 
   return (
-    // Simple shell that controls which subject to show
     <div> 
       <header> 
           <h1> RU Reading?</h1>
-
       </header>
       <h1>Book Recommender By Genre</h1> 
       <h2>Choose a genre below:</h2>
 
-      {/* Controlled select: this drives the prop passed to BookList */}
       <select value={selectedGenre} onChange={handleGenreChange}>
-    
         <option value="adventure">Adventure</option>
         <option value="art">Art</option>
         <option value="autobiography">Autobiography</option>
@@ -63,13 +58,12 @@ function Genre() {
         <option value="thriller">Thriller</option>
         <option value="travel">Travel</option>
         <option value="young adult">Young Adult</option>
-
       </select>
 
-      {/* Pass the selected subject down to BookList */}
-      <BookList genre={selectedGenre} />
+      {/* 2. Pass the prop down to the child */}
+      <BookList genre={selectedGenre} addToReadingList={addToReadingList} />
     </div>
   );
 }
 
-export default Genre;  // Export so main.jsx can import and render <App />
+export default Genre;

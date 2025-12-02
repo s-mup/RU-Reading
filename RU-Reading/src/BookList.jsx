@@ -1,98 +1,65 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from "react";
 
-const API_BASE_URL = "https://openlibrary.org";
-
-function BookList({ genre }) {
-  // Local UI state for results, loading spinner, and error text
-  const [works, setWorks] = useState([]);
+export default function BookList({ genre, addToReadingList }) {
+  const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null); // start null so we can conditionally render cleanly
 
   useEffect(() => {
-    // If no subject provided, skip fetch
-    if (!genre) return;
-
-    // A flag to avoid state updates if the component unmounts or the genre changes mid-request
-    let cancelled = false;
-
-    // Fetches books for the given subject from OpenLibrary
-    const fetchBooks = async () => {
+    async function fetchBooks() {
       setLoading(true);
-      setError(null);
-      setWorks([]); // clear old results while loading new ones
-
       try {
-        // encodeURIComponent guards against spaces or special characters in the subject
-        const url = `${API_BASE_URL}/subjects/${encodeURIComponent(genre)}.json?limit=20`;
-        const response = await fetch(url);
-
-        // Surface HTTP layer errors
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-        // Parse JSON and set results if we are still mounted
-        const data = await response.json();
-        if (!cancelled) {
-          // OpenLibrary returns { works: [...] } for /subjects
-          setWorks(Array.isArray(data.works) ? data.works : []);
-        }
-      } catch (e) {
-        // Show a friendly message if something goes wrong
-        if (!cancelled) setError(e.message || "Failed to fetch book data.");
-        console.error(e);
-      } finally {
-        // End the loading state if still mounted
-        if (!cancelled) setLoading(false);
+        // The Subjects API is different from the Search API
+        const res = await fetch(`https://openlibrary.org/subjects/${genre}.json`);
+        const data = await res.json();
+        setBooks(data.works || []);
+      } catch (err) {
+        console.error("Failed to fetch books", err);
       }
-    };
+      setLoading(false);
+    }
 
-    // Kick off the request
-    fetchBooks();
+    if (genre) {
+      fetchBooks();
+    }
+  }, [genre]);
 
-    // Cleanup flips the flag so late responses do not set state after unmount
-    return () => { cancelled = true; };
-  }, [genre]); // Re-run every time the subject changes
+  if (loading) return <p>Loading {genre} books...</p>;
 
   return (
-    <div className="app"> 
-      
-      <h1>Recommendations</h1>
+    <div className="results">
+      {books.map((work) => {
+        // Format data to match the structure expected by App.js
+        const coverUrl = work.cover_id
+          ? `https://covers.openlibrary.org/b/id/${work.cover_id}-M.jpg`
+          : "https://via.placeholder.com/128x180?text=No+Cover";
+          
+        const authorName = work.authors && work.authors.length > 0 
+          ? work.authors[0].name 
+          : "Unknown Author";
 
-      {/* Feedback states */}
-      {error && <p className="error">{error}</p>}
-      {loading && <p className="muted">Loading...</p>}
-      {!loading && !error && works.length === 0 && <p className="muted">No results yet.</p>}
+        return (
+          <div className="book" key={work.key}>
+            <img src={coverUrl} alt={work.title} />
+            <h3>{work.title}</h3>
+            <p className="author">{authorName}</p>
 
-      {/* Results list */}
-      <ul className="works">
-        {works.map((w) => (
-          <li key={w.key} className="work">
-            {/* Cover image, if available */}
-            {w.cover_id && (
-              <img
-                alt={w.title}
-                src={`https://covers.openlibrary.org/b/id/${w.cover_id}-M.jpg`}
-              />
-            )}
-
-            <div>
-              {/* Title */}
-              <h3>{w.title}</h3>
-
-              {/* Authors, if present */}
-              {w.authors?.length ? (
-                <p>by {w.authors.map((a) => a.name).join(", ")}</p>
-              ) : null}
-
-              {/* A couple of quick facts */}
-              <p>
-                Editions: {w.edition_count ?? "N/A"}. Full text: {w.has_fulltext ? "Yes" : "No"}
-              </p>
-            </div>
-          </li>
-        ))}
-      </ul>
+            {/* The Add Button */}
+            <button
+              style={{ marginTop: "10px", backgroundColor: "#4CAF50" }}
+              onClick={() =>
+                addToReadingList({
+                  key: work.key,
+                  title: work.title,
+                  author: authorName,
+                  coverUrl: coverUrl,
+                })
+              }
+            >
+              + Add to List
+            </button>
+          </div>
+        );
+      })}
     </div>
   );
 }
-
-export default BookList; // Export so App.jsx can import and render <BookList genre="..." />

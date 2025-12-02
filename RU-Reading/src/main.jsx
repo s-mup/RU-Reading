@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+/*import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Home.jsx";
@@ -15,4 +15,15 @@ createRoot(document.getElementById("root")).render(
       </Routes>
     </BrowserRouter>
   </StrictMode>
+);*/
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import Home from './Home'; // Make sure this imports the NEW App.js
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <Home />
+  </React.StrictMode>
 );
