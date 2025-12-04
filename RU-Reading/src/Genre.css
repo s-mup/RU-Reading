@@ -13,126 +13,74 @@
 html, body, #root { height: 100%; }
 body {
   margin: 0;
-  font-family: Georgia, 'Times New Roman', Times, serif
+  font-family: Georgia, 'Times New Roman', Times, serif; /* <-- fixed missing semicolon */
   color: var(--ink);
   background: var(--bg);
   line-height: 1.5;
 }
 
-.app {
-  max-width: 980px;
+/* App container */
+.app-container {
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 0 16px 24px;
 }
 
-/* Header */
+/* Header (maroon banner) */
 header {
   background: var(--brand);
   color: #fff;
   text-align: center;
   padding: 24px 16px;
   border-radius: 0px;
-  margin-bottom: 18px;
 }
-header h1 { margin: 0 0 12px;}
+header h1 { margin: 0 0 12px; }
 header p { margin: 0; opacity: 0.9; }
 
-/* Nav */
-nav ul {
-  list-style: none;
-  margin: 12px 0 24px;
-  padding: 0;
-  background: #333;
-  border-radius: 0px;
+/* Tabs under the banner */
+.navbar {
   display: flex;
+  gap: 10px;
   justify-content: center;
-  gap: 8px;
-  overflow: hidden;
+  background: #eee;
+  padding: 10px;
+  border-bottom: 1px solid var(--border);
 }
-nav ul li a {
-  display: block;
-  color: #fff;
-  text-decoration: none;
-  padding: 10px 14px;
-}
-nav ul li a:hover { background: #555; }
-
-/* Sections */
-main { display: grid; gap: 28px; }
-section {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 18px;
-}
-section h2 { margin-top: 0; }
-
-/* Like button (About section) */
-.like-button {
-  margin-top: 10px;
-  border: 1px solid var(--brand);
+.navbar button {
   background: #fff;
-  color: var(--brand);
-  padding: 8px 12px;
+  color: var(--ink);
+  border: 1px solid var(--border);
   border-radius: 10px;
+  padding: 10px 14px;
   cursor: pointer;
 }
-.like-button:hover { background: rgba(30,108,255,0.08); }
-
-/* Services */
-.service-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+.navbar button:hover {
+  background: #f8f8f8;
 }
-.service-box {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 14px;
-  width: clamp(220px, 30%, 280px);
-}
-.service-box h3 { margin: 0 0 8px; }
-
-/* Projects */
-.project-item {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 14px;
-  margin-bottom: 12px;
-}
-.project-item h3 { margin: 0 0 6px; }
-.project-item p { margin: 6px 0; }
-
-/* Works (API results) */
-.works {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 14px;
-}
-.work {
-  display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 12px;
-  align-items: start;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px;
-}
-.work h3 { margin: 0 0 6px; }
-.work p { margin: 4px 0; color: var(--muted); }
-.work img {
-  width: 120px;
-  height: auto;
-  border-radius: 8px;
-  border: 1px solid var(--border);
+.navbar .active {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
 }
 
-/* Form (Contact or Subject search) */
+/* Main content area */
+.content {
+  margin-top: 20px;
+}
+
+/* Shared page/title wrappers */
+.page {
+  min-height: 40vh;
+  padding: 10px;
+  text-align: center;
+}
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 18px;
+}
+
+/* Generic form controls (search box, selects, buttons) */
 form {
   display: grid;
   gap: 10px;
@@ -147,7 +95,6 @@ input, textarea, select, button {
   font: inherit;
   background: #fff;
 }
-textarea { resize: vertical; min-height: 80px; }
 button {
   background: var(--brand);
   color: #fff;
@@ -157,22 +104,57 @@ button {
 button:hover { background: var(--brand-dark); }
 button[disabled] { opacity: 0.6; cursor: not-allowed; }
 
+/* Card grid used by search, genre, and reading list */
+.results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+  padding: 10px;
+}
+.book {
+  background: #fff;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  text-align: center;
+}
+.book img {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  border: 1px solid var(--border);
+}
+.book h3 {
+  font-size: 1rem;
+  margin: 6px 0;
+  font-weight: bold;
+}
+.book .author {
+  font-size: 0.9rem;
+  color: #444;
+}
+.book .year {
+  font-size: 0.85rem;
+  color: #777;
+}
+
 /* Feedback */
 .error { color: #b00020; }
 .muted { color: var(--muted); }
 
-/* Footer */
-footer {
-  text-align: center;
-  color: #fff;
-  background: #333;
-  border-radius: 10px;
-  padding: 12px;
-  margin-top: 18px;
+/* Legacy sections / responsiveness (kept from your file) */
+main { display: grid; gap: 28px; }
+section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
 }
+section h2 { margin-top: 0; }
 
-/* Responsive tweaks */
 @media (max-width: 700px) {
-  .work { grid-template-columns: 1fr; }
-  nav ul { flex-wrap: wrap; padding: 6px; }
+  .navbar { flex-wrap: wrap; }
 }

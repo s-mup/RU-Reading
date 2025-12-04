@@ -1,30 +1,11 @@
-import { Link } from "react-router-dom";
-import "./Home.css";
-
-/*export default function Home() {
-  return (
-    <div className="home-page">
-      <h1 className="home-title">Welcome</h1>
-
-      <div className="nav-buttons">
-        <Link to="/genre" className="nav-btn">
-          Browse by Genre
-        </Link>
-
-        <Link to="/books" className="nav-btn">
-          Book Search
-        </Link>
-      </div>
-    </div>
-  );
-}*/
 import { useState, useEffect } from "react";
+import "./Genre.css";               // unify styling here
 import SearchBook from "./SearchBook";
 import Genre from "./Genre";
 import ReadingList from "./ReadingList";
 
 export default function Home() {
-  // 1. CHANGE DEFAULT: Start directly on "search" instead of "home"
+  // Default to Search Title tab
   const [currentTab, setCurrentTab] = useState("search");
   const [readingList, setReadingList] = useState([]);
 
@@ -51,45 +32,50 @@ export default function Home() {
   };
 
   return (
-    <div className="app-container">
-      {/* 2. UPDATE NAV: Removed the "Home" button */}
-      <nav className="navbar">
-        <button 
-          className={currentTab === 'search' ? 'active' : ''} 
-          onClick={() => setCurrentTab("search")}
-        >
-          Search Title
-        </button>
-        
-        <button 
-          className={currentTab === 'genre' ? 'active' : ''} 
-          onClick={() => setCurrentTab("genre")}
-        >
-          Search Genre
-        </button>
-        
-        <button 
-          className={currentTab === 'list' ? 'active' : ''} 
-          onClick={() => setCurrentTab("list")}
-        >
-          Reading List ({readingList.length})
-        </button>
-      </nav>
+    <>
+      <header>
+        <h1>RU Reading?</h1>
+        <p>Find books by title or subject, then build your reading list.</p>
+      </header>
 
-      {/* 3. CONTENT AREA: Removed the "Home" welcome message block */}
-      <div className="content">
-        {currentTab === "search" && (
-          <SearchBook addToReadingList={addToReadingList} />
-        )}
+      <div className="app-container">
+        <nav className="navbar">
+          <button
+            className={currentTab === 'search' ? 'active' : ''}
+            onClick={() => setCurrentTab("search")}
+          >
+            Search Title
+          </button>
 
-        {currentTab === "genre" && (
-          <Genre addToReadingList={addToReadingList} />
-        )}
+          <button
+            className={currentTab === 'genre' ? 'active' : ''}
+            onClick={() => setCurrentTab("genre")}
+          >
+            Search Genre
+          </button>
 
-        {currentTab === "list" && (
-          <ReadingList readingList={readingList} removeBook={removeFromList} />
-        )}
+          <button
+            className={currentTab === 'list' ? 'active' : ''}
+            onClick={() => setCurrentTab("list")}
+          >
+            Reading List ({readingList.length})
+          </button>
+        </nav>
+
+        <div className="content">
+          {currentTab === "search" && (
+            <SearchBook addToReadingList={addToReadingList} />
+          )}
+
+          {currentTab === "genre" && (
+            <Genre addToReadingList={addToReadingList} />
+          )}
+
+          {currentTab === "list" && (
+            <ReadingList readingList={readingList} removeBook={removeFromList} />
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

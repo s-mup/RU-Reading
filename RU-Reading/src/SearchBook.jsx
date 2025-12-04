@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import "./SearchBook.css";
 
 // Note: Pass 'addToReadingList' as a prop
 export default function SearchBook({ addToReadingList }) {
@@ -34,24 +33,28 @@ export default function SearchBook({ addToReadingList }) {
     <div className="page">
       <h1 className="title">RU Reading Book Search</h1>
 
-      <div className="search-box">
+      <div style={{ background: "#fff", padding: 20, borderRadius: 12, maxWidth: 500, margin: "0 auto 20px", border: "1px solid var(--border)" }}>
         <input
           placeholder="Search books..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          style={{ width: "100%", padding: 12, borderRadius: 10, border: "1px solid var(--border)", marginBottom: 10 }}
         />
-        <select value={type} onChange={(e) => setType(e.target.value)}>
+        <select
+          value={type}
+          onChange={(e) => setType(e.target.value)}
+          style={{ width: "100%", padding: 12, borderRadius: 10, border: "1px solid var(--border)", marginBottom: 10 }}
+        >
           <option value="title">Title</option>
           <option value="author">Author</option>
         </select>
-        <button onClick={searchBooks}>Search</button>
+        <button onClick={searchBooks} style={{ width: "100%" }}>Search</button>
       </div>
 
-      {loading && <p>Loading...</p>}
+      {loading && <p className="muted">Loading...</p>}
 
       <div className="results">
         {results.map((book, i) => {
-          // Calculate cover URL here so we can save it easily
           const coverUrl = book.cover_i
             ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`
             : "https://via.placeholder.com/128x180?text=No+Cover";
@@ -63,13 +66,10 @@ export default function SearchBook({ addToReadingList }) {
               <p className="author">
                 {book.author_name ? book.author_name[0] : "Unknown Author"}
               </p>
-              
-              {/* NEW: Add to List Button */}
-              
               <button
                 onClick={() =>
                   addToReadingList({
-                    key: book.key, // Unique ID from OpenLibrary
+                    key: book.key,
                     title: book.title,
                     author: book.author_name ? book.author_name[0] : "Unknown",
                     coverUrl: coverUrl,
