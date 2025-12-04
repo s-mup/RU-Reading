@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function ReadingList({ readingList, removeBook }) {
   return (
     <div className="page">
@@ -18,7 +16,6 @@ export default function ReadingList({ readingList, removeBook }) {
               <button 
                 className="remove-btn" 
                 onClick={() => removeBook(book.key)}
-                style={{ backgroundColor: "#ff4d4d", marginTop: "10px" }}
               >
                 Remove
               </button>

@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import "./Genre.css";               // unify styling here
+import "./Genre.css";
 import SearchBook from "./SearchBook";
 import Genre from "./Genre";
 import ReadingList from "./ReadingList";
 
 export default function Home() {
-  // Default to Search Title tab
+  // Default to Search Title
   const [currentTab, setCurrentTab] = useState("search");
   const [readingList, setReadingList] = useState([]);
 
@@ -21,7 +21,7 @@ export default function Home() {
   const addToReadingList = (book) => {
     if (!readingList.some((b) => b.key === book.key)) {
       setReadingList([...readingList, book]);
-      alert(`This book is added!`);
+      alert("This book is added!");
     } else {
       alert("This book is already in your list.");
     }
